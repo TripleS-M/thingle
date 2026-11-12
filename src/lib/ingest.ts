@@ -8,6 +8,7 @@ import { db, PATHS } from './db';
 import { getAsset, modelPath, sanitiseMeta } from './assets';
 import { loadModel, SUPPORTED_FORMATS, type Geo } from './geometry';
 import { encodePng, render } from './raster';
+import { PREVIEW_POSES } from './camera';
 import { CATEGORIES, emptyMeta, type Asset, type AssetStats, type CameraPose } from './types';
 
 export interface ScanReport {
@@ -19,12 +20,6 @@ export interface ScanReport {
   total: number;
 }
 
-export const PREVIEW_POSES: CameraPose[] = [
-  { az: 35, el: 20, roll: 0, zoom: 1 },
-  { az: -70, el: 5, roll: 0, zoom: 1 },
-  { az: 155, el: -30, roll: 0, zoom: 1 },
-  { az: 10, el: 72, roll: 0, zoom: 1 },
-];
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -184,10 +179,10 @@ export function saveUpload(name: string, category: string, data: Buffer): string
   }
   const folder = (category || 'random').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'random';
   const base = path.basename(name, path.extname(name)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'model';
-  const dir = path.join(PATHS.library, folder);
+  const dir = path.join(/*turbopackIgnore: true*/ PATHS.library, folder);
   fs.mkdirSync(dir, { recursive: true });
-  let target = path.join(dir, `${base}.${ext}`);
-  for (let i = 2; fs.existsSync(target); i++) target = path.join(dir, `${base}-${i}.${ext}`);
+  let target = path.join(/*turbopackIgnore: true*/ dir, `${base}.${ext}`);
+  for (let i = 2; fs.existsSync(target); i++) target = path.join(/*turbopackIgnore: true*/ dir, `${base}-${i}.${ext}`);
   fs.writeFileSync(target, data);
   return target;
 }

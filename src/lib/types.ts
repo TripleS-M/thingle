@@ -34,6 +34,7 @@ export interface AssetMeta {
   rotation: { h: number; v: number }; // rotation-hint allowance, degrees each way
   camera: CameraPose;
   shadow: boolean; // soft ground shadow under the silhouette
+  background: string; // '' = default paper, or a light #rrggbb backdrop
   sourceSite: string;
   sourceUrl: string;
   creator: string;
@@ -104,6 +105,7 @@ export interface GameState {
   camera: CameraPose;
   rotation: { h: number; v: number };
   shadow: boolean;
+  background: string;
   maxGuesses: number;
   guesses: string[];
   status: PlayStatus;
@@ -126,6 +128,12 @@ export interface PlayerStats {
   distribution: number[]; // wins by guess count, plus losses in the last slot
 }
 
+/** Backdrops must stay light so the black silhouette keeps its contrast. */
+export function isLightBackground(v: string): boolean {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(v);
+  return !!m && m.slice(1).every((c) => parseInt(c, 16) >= 0x90);
+}
+
 export const DEFAULT_CAMERA: CameraPose = { az: 35, el: 20, roll: 0, zoom: 1 };
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -140,7 +148,7 @@ export function emptyMeta(): AssetMeta {
   return {
     displayName: '', answer: '', accepted: [], category: '', subcategory: '',
     difficulty: 'hard', description: '', hint1: '', hint2: '',
-    rotation: { h: 30, v: 15 }, camera: { ...DEFAULT_CAMERA }, shadow: false,
+    rotation: { h: 30, v: 15 }, camera: { ...DEFAULT_CAMERA }, shadow: false, background: '',
     sourceSite: '', sourceUrl: '', creator: '', licence: '', attribution: '',
   };
 }

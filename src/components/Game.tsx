@@ -238,6 +238,7 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
               reveal={!playing}
               spin={!playing && !settling}
               shadow={state.shadow}
+              background={state.background || undefined}
               className="aspect-square w-full"
               label={playing ? 'Black silhouette of the mystery object' : `The object revealed: ${state.result?.answer ?? ''}`}
             >

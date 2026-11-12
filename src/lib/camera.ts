@@ -5,6 +5,14 @@ import type { CameraPose } from './types';
 export const FOV_DEG = 28;
 export const MARGIN = 1.12; // breathing room around the bounding sphere
 
+/** Angles of the silhouette previews generated when a model is ingested. */
+export const PREVIEW_POSES: CameraPose[] = [
+  { az: 35, el: 20, roll: 0, zoom: 1 },
+  { az: -70, el: 5, roll: 0, zoom: 1 },
+  { az: 155, el: -30, roll: 0, zoom: 1 },
+  { az: 10, el: 72, roll: 0, zoom: 1 },
+];
+
 const RAD = Math.PI / 180;
 
 /** Distance from the origin at which a unit bounding sphere fits the view. */

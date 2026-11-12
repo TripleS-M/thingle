@@ -68,7 +68,7 @@ function toState(mode: GameMode, puzzle: Puzzle, play: Play): GameState {
   return {
     mode, key: puzzle.key, number: puzzle.number, date: puzzle.date, difficulty: m.difficulty,
     model: `/api/model/${asset.id}`,
-    camera: m.camera, rotation: m.rotation, shadow: m.shadow,
+    camera: m.camera, rotation: m.rotation, shadow: m.shadow, background: m.background,
     maxGuesses, guesses: play.guesses, status: play.status,
     hints: {
       category: play.hints.includes('category') ? (m.hint1 || m.category) : null,

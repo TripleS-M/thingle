@@ -4,7 +4,7 @@ import path from 'node:path';
 import { db, PATHS, today } from './db';
 import { clamp, normaliseAz } from './camera';
 import {
-  DIFFICULTIES, emptyMeta, type Asset, type AssetMeta, type AssetStats, type AssetStatus,
+  DIFFICULTIES, emptyMeta, isLightBackground, type Asset, type AssetMeta, type AssetStats, type AssetStatus,
 } from './types';
 
 interface Row {
@@ -69,6 +69,7 @@ export function sanitiseMeta(input: Record<string, unknown>, base: AssetMeta): A
   }
   if (has('difficulty') && DIFFICULTIES.includes(input.difficulty as never)) out.difficulty = input.difficulty as AssetMeta['difficulty'];
   if (has('shadow')) out.shadow = !!input.shadow;
+  if (has('background')) out.background = isLightBackground(str(input.background)) ? str(input.background).toLowerCase() : '';
   if (has('rotation') && input.rotation && typeof input.rotation === 'object') {
     const r = input.rotation as Record<string, unknown>;
     out.rotation = { h: clamp(num(r.h, base.rotation.h), 0, 180), v: clamp(num(r.v, base.rotation.v), 0, 89) };
