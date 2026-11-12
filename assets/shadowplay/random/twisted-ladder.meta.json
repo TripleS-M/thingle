@@ -1,0 +1,36 @@
+{
+  "displayName": "DNA Double Helix",
+  "answer": "DNA",
+  "accepted": [
+    "DNA double helix",
+    "Double helix",
+    "DNA strand",
+    "DNA molecule",
+    "Deoxyribonucleic acid",
+    "DNA helix",
+    "DNA model",
+    "Helix",
+    "DNA structure"
+  ],
+  "category": "Biology",
+  "subcategory": "Molecular models",
+  "difficulty": "hard",
+  "description": "A model of the DNA double helix: two sugar-phosphate backbones wound around each other, joined by base pairs like the rungs of a twisted ladder.",
+  "hint1": "Biology",
+  "hint2": "Every living cell carries a copy of this, and it holds the instructions for building you.",
+  "rotation": {
+    "h": 30,
+    "v": 28
+  },
+  "camera": {
+    "az": 12,
+    "el": 83,
+    "roll": 0,
+    "zoom": 1.45
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

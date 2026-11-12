@@ -1,0 +1,32 @@
+{
+  "displayName": "Spark Plug",
+  "answer": "Spark plug",
+  "accepted": [
+    "Sparkplug",
+    "Sparking plug",
+    "Engine spark plug",
+    "Car spark plug",
+    "Ignition plug"
+  ],
+  "category": "Automotive",
+  "subcategory": "Ignition",
+  "difficulty": "medium",
+  "description": "A spark plug: ribbed ceramic insulator, hex shell, threaded body and a hooked ground electrode. The gap at its tip is where the spark jumps.",
+  "hint1": "Automotive",
+  "hint2": "It delivers a tiny bolt of electricity that starts combustion.",
+  "rotation": {
+    "h": 30,
+    "v": 20
+  },
+  "camera": {
+    "az": 30,
+    "el": -68,
+    "roll": 40,
+    "zoom": 1.5
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

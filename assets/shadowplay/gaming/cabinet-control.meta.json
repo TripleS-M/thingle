@@ -1,0 +1,39 @@
+{
+  "displayName": "Arcade Joystick",
+  "answer": "Arcade joystick",
+  "accepted": [
+    "Joystick",
+    "Arcade stick",
+    "Fight stick",
+    "Arcade joystick lever",
+    "Joystick lever",
+    "Arcade lever",
+    "Ball top joystick",
+    "Arcade controller",
+    "Fightstick",
+    "Arcade control stick",
+    "Joy stick",
+    "Arcade joy stick"
+  ],
+  "category": "Gaming",
+  "subcategory": "Arcade hardware",
+  "difficulty": "hard",
+  "description": "An arcade joystick lever seen without its cabinet: ball top, shaft and mounting plate above, and underneath, the four microswitches that register each direction.",
+  "hint1": "Gaming",
+  "hint2": "Four small switches underneath it click as a player pushes in each direction.",
+  "rotation": {
+    "h": 30,
+    "v": 20
+  },
+  "camera": {
+    "az": 28,
+    "el": -70,
+    "roll": 12,
+    "zoom": 1.15
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

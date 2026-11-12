@@ -1,0 +1,41 @@
+{
+  "displayName": "Planetary Gearset",
+  "answer": "Planetary gear",
+  "accepted": [
+    "Planetary gearset",
+    "Planetary gear set",
+    "Planetary gearbox",
+    "Planetary gears",
+    "Epicyclic gear",
+    "Epicyclic gearing",
+    "Epicyclic gearbox",
+    "Epicyclic gear train",
+    "Planetary gear train",
+    "Sun and planet gear",
+    "Planetary gear system",
+    "Epicyclic gears",
+    "Planetary transmission",
+    "Planetary drive"
+  ],
+  "category": "Industrial machinery",
+  "subcategory": "Power transmission",
+  "difficulty": "expert",
+  "description": "A planetary (epicyclic) gearset: a central sun gear, three planet gears on a carrier, and an outer ring gear with internal teeth. Compact, strong, and found in every automatic gearbox.",
+  "hint1": "Industrial machinery",
+  "hint2": "It trades speed for torque in a very compact space, with parts named after the heavens.",
+  "rotation": {
+    "h": 35,
+    "v": 15
+  },
+  "camera": {
+    "az": 74,
+    "el": 12,
+    "roll": -20,
+    "zoom": 1.1
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

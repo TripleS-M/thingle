@@ -1,0 +1,39 @@
+{
+  "name": "shadowplay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shadowplay — a daily 3D silhouette deduction game",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "models": "node scripts/generate-models.mjs",
+    "scan": "tsx scripts/scan.ts",
+    "seed": "node scripts/generate-models.mjs && tsx scripts/seed.ts",
+    "test": "tsx scripts/test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "draco3dgltf": "^1.5.9",
+    "meshoptimizer": "^1.3.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.187.0",
+    "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "displayName": "Ball Bearing",
+  "answer": "Ball bearing",
+  "accepted": [
+    "Bearing",
+    "Ball bearings",
+    "Deep groove ball bearing",
+    "Roller bearing",
+    "Bearings",
+    "Wheel bearing",
+    "Skate bearing",
+    "Rolling bearing",
+    "Radial ball bearing",
+    "Rolling element bearing"
+  ],
+  "category": "Industrial machinery",
+  "subcategory": "Machine elements",
+  "difficulty": "hard",
+  "description": "A deep-groove ball bearing: hardened steel balls held in a cage between an inner and an outer race, letting a shaft spin with almost no friction.",
+  "hint1": "Industrial machinery",
+  "hint2": "It lets one part spin freely inside another with very little friction.",
+  "rotation": {
+    "h": 30,
+    "v": 20
+  },
+  "camera": {
+    "az": 0,
+    "el": 7,
+    "roll": 30,
+    "zoom": 0.95
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

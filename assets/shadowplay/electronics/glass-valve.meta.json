@@ -1,0 +1,42 @@
+{
+  "displayName": "Vacuum Tube",
+  "answer": "Vacuum tube",
+  "accepted": [
+    "Valve",
+    "Thermionic valve",
+    "Triode",
+    "Electron tube",
+    "Radio tube",
+    "Radio valve",
+    "Vacuum valve",
+    "Tube",
+    "Amplifier tube",
+    "Amp tube",
+    "Thermionic tube",
+    "Vacuum tube triode",
+    "Pentode",
+    "Electronic valve",
+    "Tube valve"
+  ],
+  "category": "Electronics",
+  "subcategory": "Vintage components",
+  "difficulty": "medium",
+  "description": "A vacuum tube (thermionic valve): metal electrodes sealed in an evacuated glass envelope on an eight-pin base. Before transistors, these did all the amplifying.",
+  "hint1": "Electronics",
+  "hint2": "Before the transistor, this glowing component amplified signals in radios and early computers.",
+  "rotation": {
+    "h": 30,
+    "v": 20
+  },
+  "camera": {
+    "az": 25,
+    "el": -57,
+    "roll": 140,
+    "zoom": 1.15
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

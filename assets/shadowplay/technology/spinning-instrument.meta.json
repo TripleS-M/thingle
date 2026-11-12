@@ -1,0 +1,34 @@
+{
+  "displayName": "Gyroscope",
+  "answer": "Gyroscope",
+  "accepted": [
+    "Gyro",
+    "Toy gyroscope",
+    "Mechanical gyroscope",
+    "Gyroscope toy",
+    "Gimbal gyroscope",
+    "Gyroscopic top",
+    "Gyrostat"
+  ],
+  "category": "Technology",
+  "subcategory": "Instruments",
+  "difficulty": "easy",
+  "description": "A caged gyroscope on its pedestal. Once the heavy rotor is spinning it stubbornly resists being tilted — the principle behind navigation instruments.",
+  "hint1": "Technology",
+  "hint2": "Set its heavy wheel spinning and it refuses to fall over.",
+  "rotation": {
+    "h": 30,
+    "v": 15
+  },
+  "camera": {
+    "az": 0,
+    "el": 80,
+    "roll": 0,
+    "zoom": 1.1
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

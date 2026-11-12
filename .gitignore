@@ -1,0 +1,14 @@
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+
+# runtime data (player progress, registry) and generated previews
+data/*.db
+data/*.db-*
+storage/shadowplay/thumbnails/*
+storage/shadowplay/previews/*
+storage/shadowplay/processed/*
+!storage/shadowplay/*/.gitkeep

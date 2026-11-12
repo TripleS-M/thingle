@@ -1,0 +1,43 @@
+{
+  "displayName": "Deep-Space Probe",
+  "answer": "Space probe",
+  "accepted": [
+    "Deep space probe",
+    "Voyager",
+    "Voyager probe",
+    "Voyager 1",
+    "Voyager 2",
+    "Voyager spacecraft",
+    "Spacecraft",
+    "Probe",
+    "Satellite",
+    "Space satellite",
+    "Interplanetary probe",
+    "Pioneer probe",
+    "Space craft",
+    "Unmanned spacecraft",
+    "NASA probe",
+    "Robotic spacecraft"
+  ],
+  "category": "Aerospace",
+  "subcategory": "Spacecraft",
+  "difficulty": "hard",
+  "description": "A Voyager-style deep-space probe: a large high-gain dish over a ten-sided bus, with long booms carrying its instruments and power source well away from the body.",
+  "hint1": "Aerospace",
+  "hint2": "It works alone, billions of kilometres from the nearest person, and phones home through a large dish.",
+  "rotation": {
+    "h": 35,
+    "v": 20
+  },
+  "camera": {
+    "az": 112,
+    "el": 62,
+    "roll": -30,
+    "zoom": 1.05
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

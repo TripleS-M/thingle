@@ -1,0 +1,44 @@
+{
+  "displayName": "Iris Diaphragm",
+  "answer": "Aperture diaphragm",
+  "accepted": [
+    "Iris diaphragm",
+    "Camera aperture",
+    "Aperture",
+    "Lens aperture",
+    "Iris",
+    "Camera iris",
+    "Aperture blades",
+    "Lens diaphragm",
+    "Diaphragm",
+    "Iris mechanism",
+    "Aperture mechanism",
+    "Lens iris",
+    "Camera diaphragm",
+    "Aperture iris",
+    "Iris aperture",
+    "Camera lens aperture",
+    "Aperture ring"
+  ],
+  "category": "Photography",
+  "subcategory": "Camera mechanisms",
+  "difficulty": "expert",
+  "description": "An iris diaphragm from a camera lens: nine thin overlapping blades in a ring. Moving the lever swings the blades to widen or narrow the opening.",
+  "hint1": "Photography",
+  "hint2": "This mechanism controls how much light is allowed through.",
+  "rotation": {
+    "h": 30,
+    "v": 25
+  },
+  "camera": {
+    "az": 35,
+    "el": 11,
+    "roll": 18,
+    "zoom": 1.1
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

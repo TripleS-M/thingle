@@ -1,0 +1,43 @@
+{
+  "displayName": "Turbofan Engine Fan",
+  "answer": "Turbofan",
+  "accepted": [
+    "Turbofan engine",
+    "Jet engine",
+    "Jet engine fan",
+    "Turbofan fan",
+    "Aircraft turbine",
+    "Turbine",
+    "Jet turbine",
+    "Engine fan",
+    "Fan blades",
+    "Turbine fan",
+    "Aircraft engine",
+    "Plane engine",
+    "Jet engine turbine",
+    "Turbofan engine fan",
+    "Airplane engine",
+    "Aeroplane engine"
+  ],
+  "category": "Aerospace",
+  "subcategory": "Propulsion",
+  "difficulty": "medium",
+  "description": "The front fan stage of a high-bypass turbofan: twisted titanium blades around a spinner cone, inside the intake cowl. Most of an airliner's thrust comes from this fan.",
+  "hint1": "Aerospace",
+  "hint2": "It spins thousands of times a minute and moves enormous volumes of air to produce thrust.",
+  "rotation": {
+    "h": 25,
+    "v": 20
+  },
+  "camera": {
+    "az": 20,
+    "el": 9,
+    "roll": 90,
+    "zoom": 0.92
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

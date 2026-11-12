@@ -1,0 +1,36 @@
+{
+  "displayName": "F1 Front Wing",
+  "answer": "F1 Front Wing",
+  "accepted": [
+    "Formula 1 front wing",
+    "Formula One front wing",
+    "Racing front wing",
+    "Front wing",
+    "Race car front wing",
+    "F1 wing",
+    "Formula 1 wing",
+    "F1 car front wing",
+    "Front wing assembly"
+  ],
+  "category": "Motorsport",
+  "subcategory": "Aerodynamics",
+  "difficulty": "hard",
+  "description": "A multi-element front wing with endplates and nose section. It is the first surface to meet the air, and it shapes the airflow for the whole car behind it.",
+  "hint1": "Motorsport",
+  "hint2": "This component plays an important role in aerodynamic performance.",
+  "rotation": {
+    "h": 30,
+    "v": 15
+  },
+  "camera": {
+    "az": -18,
+    "el": -58,
+    "roll": 24,
+    "zoom": 1.15
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}

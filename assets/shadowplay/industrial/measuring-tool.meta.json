@@ -1,0 +1,41 @@
+{
+  "displayName": "Vernier Caliper",
+  "answer": "Vernier caliper",
+  "accepted": [
+    "Caliper",
+    "Calipers",
+    "Vernier calipers",
+    "Vernier",
+    "Callipers",
+    "Calliper",
+    "Vernier calliper",
+    "Vernier callipers",
+    "Digital caliper",
+    "Digital calipers",
+    "Slide caliper",
+    "Dial caliper",
+    "Measuring caliper",
+    "Sliding caliper"
+  ],
+  "category": "Industrial machinery",
+  "subcategory": "Measuring tools",
+  "difficulty": "medium",
+  "description": "A vernier caliper: a ruled beam with a fixed jaw and a sliding jaw, plus a depth rod out the far end. Machinists use it to measure to a fraction of a millimetre.",
+  "hint1": "Industrial tools",
+  "hint2": "A precision instrument: something is gripped between its jaws and a reading is taken.",
+  "rotation": {
+    "h": 30,
+    "v": 15
+  },
+  "camera": {
+    "az": 76,
+    "el": 14,
+    "roll": 52,
+    "zoom": 1.6
+  },
+  "sourceSite": "Shadowplay sample library",
+  "sourceUrl": "",
+  "creator": "Shadowplay (procedurally generated)",
+  "licence": "CC0 1.0",
+  "attribution": "None required"
+}
