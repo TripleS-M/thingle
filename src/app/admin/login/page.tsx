@@ -12,7 +12,7 @@ export default async function LoginPage() {
   return (
     <main className="grid min-h-dvh place-items-center px-4 py-10">
       <div className="flex w-full flex-col items-center gap-6">
-        <Link href="/" className="wordmark text-3xl" aria-label="Shadowplay — back to the game">Shadowplay</Link>
+        <Link href="/" className="wordmark text-3xl" aria-label="Thingle — back to the game">Thingle</Link>
         <LoginForm devPassword={usingDevPassword()} configured={adminPassword() !== null} />
         <Link href="/" className="label text-smoke hover:text-brass-hi">← Back to today&rsquo;s case</Link>
       </div>

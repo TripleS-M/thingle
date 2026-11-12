@@ -152,3 +152,6 @@ export function emptyMeta(): AssetMeta {
     sourceSite: '', sourceUrl: '', creator: '', licence: '', attribution: '',
   };
 }
+
+/** Difficulty feedback scale, 1..7. */
+export const RATING_LABELS = ['Extremely easy', 'Very easy', 'Easy', 'About right', 'Hard', 'Very hard', 'Extremely hard'];

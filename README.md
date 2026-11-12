@@ -1,4 +1,4 @@
-# Shadowplay
+# Thingle
 
 A daily 3D silhouette deduction game. Every day one mystery object is shown as a solid black
 silhouette, rendered live from a real 3D model. Players get five guesses and three optional hints.
@@ -13,6 +13,8 @@ When the game ends the object is revealed in its original colours.
 - [7. Admin access](#7-admin-access)
 - [8. Importing publicly licensed models](#8-importing-publicly-licensed-models)
 - [9. Configuring hints and scoring](#9-configuring-hints-and-scoring)
+- [10. Player feedback](#10-player-feedback)
+- [11. Sound and the case folder](#11-sound-and-the-case-folder)
 - [How it works](#how-it-works) · [Testing](#testing) · [Deploying](#deploying) · [Troubleshooting](#troubleshooting)
 
 ---
@@ -29,6 +31,10 @@ npm run dev
 
 Open <http://localhost:3000> to play, and <http://localhost:3000/admin> for the admin dashboard
 (development password: `shadowplay`).
+
+> The game was first built under the working title *Shadowplay*. The name players see is Thingle,
+> but internal names were left alone so existing data keeps working: the `assets/shadowplay/` and
+> `storage/shadowplay/` folders, `data/shadowplay.db`, and the development password.
 
 | Command | What it does |
 | --- | --- |
@@ -116,8 +122,10 @@ cannot be approved or scheduled.
 
 **Answer matching** is strict but forgiving about formatting: capitals, punctuation, hyphens,
 accents, extra spaces, spacing inside a word (`cam shaft` = `camshaft`) and a leading "a / an / the"
-are ignored. There is no fuzzy matching — `front wings` does not match `front wing` — so list every
-name you would accept. The editor has a "Try a guess" box to check.
+are ignored. Small spelling mistakes are forgiven too: `vaccum tube` and `vaccuum tube` both match
+`vacuum tube`. The allowance grows with length (1 typo for 6–9 letters, 2 for 10–14, 3 beyond), words of
+5 letters or fewer must be exact, the first letter must be right and numbers must match (`F2` is not `F1`).
+A genuinely different name still has to be listed. The editor has a "Try a guess" box to check.
 
 ### Optional: metadata sidecar file
 
@@ -273,6 +281,35 @@ How hints behave: each can be used once, in any order, and never consumes a gues
 allowance is a window around the starting angle (±30° means 30° either way), the silhouette stays
 black, and the gauges show how much turn is left. There is no speed bonus.
 
+## 10. Player feedback
+
+After a daily or practice case ends, players are asked once how it went: a seven-step scale from
+**Extremely easy** to **Extremely hard**, plus an optional comment. They can skip it, and a
+"Rate this case" button on the results screen lets them answer or change their answer later.
+
+Read it at **`/admin/feedback`**:
+
+- filter by day range, by thing, and by daily / practice;
+- one line per day and thing with the number of responses, average felt difficulty, the spread
+  across the seven steps, how many respondents solved it, average guesses and average score;
+- every individual response with its comment;
+- **Export CSV** downloads whatever the filters currently show.
+
+Each response is stored in the `feedback` table of `data/shadowplay.db` with the puzzle date, the
+model's asset ID, the answer at the time (kept even if the model is deleted later), the rating,
+the comment, and how that player's game went (solved or not, guesses, hints used, score). There is
+one response per player per puzzle; answering again replaces it.
+
+## 11. Sound and the case folder
+
+- **Sound effects** are generated in the browser (no audio files): a pencil scratch when a wrong
+  guess is struck out, and a stamp followed by a soft chime when the case is solved. The
+  **Sound on / off** button in the header mutes them and the choice is remembered.
+- **The case folder** opens when a case loads. The folder and its opening animation are CSS 3D
+  transforms, which the browser runs on the GPU. The **paperclip** is a real Three.js model (a
+  bent steel wire) that is rendered once into an image; its WebGL context is then released, so it
+  costs nothing while playing. People who have "reduce motion" switched on get no animation.
+
 ---
 
 ## How it works
@@ -297,10 +334,10 @@ src/lib/                  game rules, scoring, ingestion, scheduling, rendering 
 
 ## Testing
 
-`npm test` runs 77 checks against a temporary library and database: answer matching, scoring,
+`npm test` runs 89 checks against a temporary library and database: answer matching, scoring,
 five-guess limit, hints, persistence, timezone, ingestion of all four formats, duplicate detection,
-review-before-publish, scheduling rules, future-puzzle protection, practice mode, statistics and
-silhouette blackness.
+review-before-publish, scheduling rules, future-puzzle protection, practice mode, statistics,
+player feedback and silhouette blackness.
 
 ## Deploying
 

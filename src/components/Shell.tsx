@@ -5,8 +5,8 @@ export default function Shell({ children, actions }: { children: React.ReactNode
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-6xl flex-wrap items-end justify-between gap-x-6 gap-y-3 px-4 pt-6 pb-5 sm:pt-8">
-        <Link href="/" className="group block" aria-label="Shadowplay — today's case">
-          <span className="wordmark block text-[1.7rem] leading-none sm:text-4xl">Shadowplay</span>
+        <Link href="/" className="group block" aria-label="Thingle — today's case">
+          <span className="wordmark block text-[1.7rem] leading-none sm:text-4xl">Thingle</span>
           <span className="label mt-2 block text-smoke group-hover:text-brass-hi">The daily silhouette case</span>
         </Link>
         <nav className="flex flex-wrap items-center gap-2" aria-label="Main">

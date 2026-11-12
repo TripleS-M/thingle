@@ -7,6 +7,7 @@ import { api } from '@/lib/client';
 const LINKS = [
   { href: '/admin', label: 'Library', match: (p: string) => p === '/admin' || p.startsWith('/admin/assets') },
   { href: '/admin/schedule', label: 'Schedule', match: (p: string) => p.startsWith('/admin/schedule') },
+  { href: '/admin/feedback', label: 'Feedback', match: (p: string) => p.startsWith('/admin/feedback') },
   { href: '/admin/settings', label: 'Settings', match: (p: string) => p.startsWith('/admin/settings') },
 ];
 
@@ -22,7 +23,7 @@ export default function AdminNav() {
     <header className="border-b border-brass/25 bg-walnut-950/70">
       <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3">
         <Link href="/admin" className="flex items-baseline gap-3">
-          <span className="wordmark text-xl leading-none">Shadowplay</span>
+          <span className="wordmark text-xl leading-none">Thingle</span>
           <span className="label text-smoke">Records room</span>
         </Link>
         <nav className="flex flex-wrap items-center gap-1.5" aria-label="Admin">

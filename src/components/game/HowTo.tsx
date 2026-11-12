@@ -14,7 +14,7 @@ export default function HowTo({ scoring, onClose }: { scoring: Scoring | null; o
           Work out what it is in <strong>{points.length} guesses</strong>.
         </p>
         <ul className="list-disc space-y-1.5 pl-5">
-          <li>Type what you think the object is. Common names, abbreviations and spellings all count.</li>
+          <li>Type what you think the object is. Common names and abbreviations count, and small spelling mistakes are forgiven.</li>
           <li>A wrong guess tells you nothing more — the shadow never changes. Look again.</li>
           <li>Hints never use up a guess, but each one costs points, and each can be opened once.</li>
           <li>Solve it (or run out of guesses) and the object is revealed in full colour.</li>

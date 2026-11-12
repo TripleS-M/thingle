@@ -25,7 +25,7 @@ export function shareText(opts: {
     if (i < opts.guessCount) return '⬛';
     return '⬜';
   }).join('');
-  const title = `SHADOWPLAY${opts.number ? ` #${String(opts.number).padStart(3, '0')}` : ''}${opts.practice ? ' (practice)' : ''}`;
+  const title = `THINGLE${opts.number ? ` #${String(opts.number).padStart(3, '0')}` : ''}${opts.practice ? ' (practice)' : ''}`;
   const verdict = opts.status === 'won' ? `${opts.guessCount}/${opts.maxGuesses}` : `X/${opts.maxGuesses}`;
   const hints = opts.hints.length ? `💡 ${opts.hints.length} hint${opts.hints.length > 1 ? 's' : ''}` : '💡 no hints';
   return `${title}\n${squares} ${verdict}\n${opts.score}/${opts.max} · ${hints}`;

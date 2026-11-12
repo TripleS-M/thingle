@@ -53,7 +53,7 @@ export default function MetaFields({ meta, onChange }: { meta: AssetMeta; onChan
             <input className="field" {...text('answer')} />
           </Field>
         </div>
-        <Field label="Accepted alternative answers" hint="One per line. Capitals, punctuation, hyphens, spacing and a leading “a / the” are already ignored — list genuinely different names only (e.g. “camshaft”, “engine camshaft”).">
+        <Field label="Accepted alternative answers" hint="One per line. Capitals, punctuation, hyphens, spacing, a leading “a / the” and small spelling mistakes are already forgiven — list genuinely different names only (e.g. “camshaft”, “engine camshaft”).">
           <textarea className="field" rows={4} value={meta.accepted.join('\n')}
             onChange={(e) => onChange({ accepted: e.target.value.split('\n') })}
             onBlur={() => onChange({ accepted: [...new Set(meta.accepted.map((a) => a.trim()).filter(Boolean))] })} />

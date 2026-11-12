@@ -1,8 +1,8 @@
 {
-  "name": "shadowplay",
+  "name": "thingle",
   "version": "1.0.0",
   "private": true,
-  "description": "Shadowplay — a daily 3D silhouette deduction game",
+  "description": "Thingle — a daily 3D silhouette deduction game",
   "engines": {
     "node": ">=22.13"
   },

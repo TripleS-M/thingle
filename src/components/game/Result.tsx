@@ -43,8 +43,8 @@ async function copyText(text: string): Promise<boolean> {
   }
 }
 
-export default function Result({ state, timezone, busy, onStats, onReset }: {
-  state: GameState; timezone: string; busy: boolean; onStats: () => void; onReset: () => void;
+export default function Result({ state, timezone, busy, onStats, onReset, onFeedback }: {
+  state: GameState; timezone: string; busy: boolean; onStats: () => void; onReset: () => void; onFeedback?: () => void;
 }) {
   const [copied, setCopied] = useState<'idle' | 'ok' | 'fail'>('idle');
   const result = state.result;
@@ -64,7 +64,7 @@ export default function Result({ state, timezone, busy, onStats, onReset }: {
     <div className="rise space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
         <div>
-          <p className="label muted">Shadowplay #{caseNo(state.number)}</p>
+          <p className="label muted">Thingle #{caseNo(state.number)}</p>
           <p className="typed mt-1 text-lg">
             {won ? `Solved in ${state.guesses.length}/${state.maxGuesses} guesses` : `Unsolved after ${state.maxGuesses} guesses`}
           </p>
@@ -106,6 +106,7 @@ export default function Result({ state, timezone, busy, onStats, onReset }: {
             {copied === 'ok' ? 'Copied ✓' : copied === 'fail' ? 'Copy failed — select the text' : 'Copy result'}
           </button>
           <button type="button" className="btn btn-line" onClick={onStats}>Your record</button>
+          {onFeedback && <button type="button" className="btn btn-line" onClick={onFeedback}>Rate this case</button>}
         </div>
       </div>
 

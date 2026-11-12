@@ -3,12 +3,15 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ModelViewer, { type Offset } from './ModelViewer';
+import Paperclip from './Paperclip';
 import Shell from './Shell';
+import FeedbackDialog from './game/FeedbackDialog';
 import Hints from './game/Hints';
 import HowTo from './game/HowTo';
 import Result from './game/Result';
 import StatsDialog from './game/StatsDialog';
 import { api, caseNo, formatDate, save, store } from '@/lib/client';
+import { isMuted, playFailed, playScratch, playSolved, setMuted, unlockAudio } from '@/lib/sfx';
 import type { CameraPose, GameMode, GameState, HintType } from '@/lib/types';
 
 interface Loaded { state: GameState | null; timezone: string }
@@ -25,13 +28,28 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState<{ text: string; kind: 'wrong' | 'error' } | null>(null);
   const [shake, setShake] = useState(0);
-  const [dialog, setDialog] = useState<'help' | 'stats' | null>(null);
+  const [dialog, setDialog] = useState<'help' | 'stats' | 'feedback' | null>(null);
+  const [folder, setFolder] = useState<'opening' | 'open'>('opening'); // the case folder swings open for each new case
+  const [opens, setOpens] = useState(0);
+  const [muted, setMutedState] = useState(false);
   const [offset, setOffset] = useState<Offset>(ZERO);
   const [initialOffset, setInitialOffset] = useState<Offset>(ZERO);
   const [settling, setSettling] = useState<CameraPose | null>(null); // camera gliding to the reveal pose
   const input = useRef<HTMLInputElement>(null);
   const state = loaded?.state ?? null;
   const rotKey = state ? `sp:rot:${state.mode}:${state.key}` : '';
+  const fbKey = state ? `sp:fb:${state.mode}:${state.key}` : '';
+
+  useEffect(() => { setMutedState(isMuted()); }, []);
+  const toggleSound = () => { const next = !muted; setMuted(next); setMutedState(next); if (!next) unlockAudio(); };
+  const reopenFolder = () => { setFolder('opening'); setOpens((n) => n + 1); };
+  // Safety net: if the opening animation never reports back (hidden tab), finish it anyway.
+  const hasCase = !!state;
+  useEffect(() => {
+    if (!hasCase) return;
+    const t = setTimeout(() => setFolder('open'), 2600);
+    return () => clearTimeout(t);
+  }, [hasCase, opens]);
 
   const load = useCallback(async (quiet = false) => {
     try {
@@ -92,11 +110,19 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
     requestAnimationFrame(step);
   }, []);
 
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (feedbackTimer.current) clearTimeout(feedbackTimer.current); }, []);
+  const closeFeedback = () => { save(fbKey, true); setDialog(null); };
+
   const apply = (next: GameState, previous: GameState) => {
     if (previous.status === 'playing' && next.status !== 'playing') {
       const c = previous.camera;
       const turned = previous.hints.rotation ? offset : ZERO;
       settle({ ...c, az: c.az + turned.az, el: c.el + turned.el }, revealPose(next.camera));
+      // Once the result has landed, ask (once) how the case felt.
+      if (next.mode !== 'preview' && !store(`sp:fb:${next.mode}:${next.key}`, false)) {
+        feedbackTimer.current = setTimeout(() => setDialog((d) => d ?? 'feedback'), 2800);
+      }
     }
     setLoaded((l) => (l ? { ...l, state: next } : l));
   };
@@ -122,8 +148,10 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!guess.trim()) { input.current?.focus(); return; }
+    unlockAudio(); // must happen inside the key press / tap, before the request
     act({ action: 'guess', guess }, (r) => {
       setGuess('');
+      if (r.correct) playSolved(); else if (r.state.status === 'lost') playFailed(); else playScratch();
       if (!r.correct && r.state.status === 'playing') {
         setFeedback({ text: r.message ?? 'Not quite. Take another look.', kind: 'wrong' });
         setShake((n) => n + 1);
@@ -132,7 +160,7 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
     });
   };
   const openHint = (hint: HintType) => act({ action: 'hint', hint });
-  const reset = () => act({ action: 'reset' }, () => { save(rotKey, ZERO); setOffset(ZERO); setInitialOffset({ ...ZERO }); setGuess(''); });
+  const reset = () => act({ action: 'reset' }, () => { save(rotKey, ZERO); setOffset(ZERO); setInitialOffset({ ...ZERO }); setGuess(''); reopenFolder(); });
 
   const potential = useMemo(() => {
     if (!state || state.status !== 'playing') return 0;
@@ -146,12 +174,16 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
     <>
       <button type="button" className="btn btn-ghost btn-sm" onClick={() => setDialog('help')}>How to play</button>
       <button type="button" className="btn btn-ghost btn-sm" onClick={() => setDialog('stats')}>Record</button>
+      <button type="button" className="btn btn-ghost btn-sm" onClick={toggleSound} aria-pressed={!muted} title={muted ? 'Turn sound effects on' : 'Turn sound effects off'}>
+        Sound {muted ? 'off' : 'on'}
+      </button>
     </>
   );
   const dialogs = (
     <>
       {dialog === 'help' && <HowTo scoring={state?.scoring ?? null} onClose={() => setDialog(null)} />}
       {dialog === 'stats' && <StatsDialog onClose={() => setDialog(null)} />}
+      {dialog === 'feedback' && state && state.status !== 'playing' && <FeedbackDialog state={state} onClose={closeFeedback} />}
     </>
   );
 
@@ -223,43 +255,52 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
         </div>
       )}
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-8">
-        {/* Evidence photograph */}
-        <section aria-label="Evidence photograph" className="lg:sticky lg:top-6">
-          <div className="frame">
-            <ModelViewer
-              key={state.model}
-              src={state.model}
-              camera={camera}
-              control={playing ? (turning ? 'limited' : 'none') : settling ? 'none' : 'free'}
-              limits={state.rotation}
-              initialOffset={initialOffset}
-              onOffset={onOffset}
-              reveal={!playing}
-              spin={!playing && !settling}
-              shadow={state.shadow}
-              background={state.background || undefined}
-              className="aspect-square w-full"
-              label={playing ? 'Black silhouette of the mystery object' : `The object revealed: ${state.result?.answer ?? ''}`}
-            >
-              <i className="corner tl" /><i className="corner tr" /><i className="corner br" /><i className="corner bl" />
-            </ModelViewer>
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-1 pt-2.5 sm:pt-3">
-              <span className="label text-brass-hi">
-                {state.mode === 'preview' && state.number == null ? 'Exhibit · preview' : `Exhibit · Case No. ${caseNo(state.number)}`}
-              </span>
-              <span className="label text-smoke">Difficulty · {state.difficulty}</span>
+      <div className="dossier mt-8 grid items-stretch gap-8 lg:grid-cols-2 lg:gap-0" data-open={folder} key={opens}>
+        {/* Left half of the folder (the inside of its cover): the photograph, paper-clipped in place */}
+        <section aria-label="Evidence photograph" className="leaf leaf-left"
+          onAnimationEnd={(e) => { if (e.animationName === 'leaf-open') setFolder('open'); }}>
+          <div className="leaf-face leaf-inside">
+            <div className="mx-auto max-w-[34rem] lg:sticky lg:top-8">
+              <div className="print mt-5 sm:mt-6">
+                <Paperclip />
+                <ModelViewer
+                  key={state.model}
+                  src={state.model}
+                  camera={camera}
+                  control={playing ? (turning ? 'limited' : 'none') : settling ? 'none' : 'free'}
+                  limits={state.rotation}
+                  initialOffset={initialOffset}
+                  onOffset={onOffset}
+                  reveal={!playing}
+                  spin={!playing && !settling}
+                  shadow={state.shadow}
+                  background={state.background || undefined}
+                  className="aspect-square w-full"
+                  label={playing ? 'Black silhouette of the mystery object' : `The object revealed: ${state.result?.answer ?? ''}`}
+                />
+              </div>
+              {(turning || !playing) && (
+                <p className="label mt-4 text-center opacity-75 !tracking-[0.14em]">
+                  {playing ? 'Drag the photograph to turn it — within the limits' : 'Drag to inspect the object'}
+                </p>
+              )}
             </div>
           </div>
-          <p className="label mt-3 text-center text-smoke/90 !tracking-[0.14em]">
-            {playing
-              ? turning ? 'Drag the photograph to turn it — within the limits' : 'Photograph fixed · rotation is sealed in Exhibit C'
-              : 'Drag to inspect the object'}
-          </p>
+          <div className="leaf-face leaf-cover" aria-hidden="true">
+            <div className="cover-label">
+              <p className="label">Case file</p>
+              <p className="font-display mt-1 text-4xl font-black tracking-[0.18em] uppercase">Thingle</p>
+              <p className="typed mt-2 text-lg">No. {caseNo(state.number)}</p>
+              <span className="stamp small mt-3">Confidential</span>
+            </div>
+          </div>
         </section>
 
         {/* Case file */}
-        <section aria-label="Case file" className="paper p-5 sm:p-7">
+        <section aria-label="Case file" className="leaf leaf-right">
+          <span className="folder-tab" aria-hidden="true">Case No. {caseNo(state.number)}</span>
+          <div className="leaf-face leaf-inside">
+          <div className="paper p-5 sm:p-7">
           <div className="rule mb-5 flex flex-wrap items-baseline justify-between gap-2 pb-3">
             <h1 className="typed text-xl sm:text-2xl">Case file No. {caseNo(state.number)}</h1>
             {state.date && <span className="label muted">{formatDate(state.date)}</span>}
@@ -296,7 +337,8 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
               </p>
             </>
           ) : (
-            <Result state={state} timezone={loaded.timezone} busy={busy} onStats={() => setDialog('stats')} onReset={reset} />
+            <Result state={state} timezone={loaded.timezone} busy={busy} onStats={() => setDialog('stats')} onReset={reset}
+              onFeedback={state.mode === 'preview' ? undefined : () => setDialog('feedback')} />
           )}
 
           {/* Suspect list */}
@@ -328,7 +370,21 @@ export default function Game({ mode, gameKey }: { mode: GameMode; gameKey?: stri
             </p>
             <Hints state={state} offset={offset} busy={busy} onUse={openHint} />
           </div>
+          </div>
+          </div>
         </section>
+
+        {/* Small screens: a cover swings away instead of the left half turning */}
+        {folder === 'opening' && (
+          <div className="leaf-face swing-cover" aria-hidden="true" onAnimationEnd={(e) => { if (e.animationName === 'swing-open') setFolder('open'); }}>
+            <div className="cover-label">
+              <p className="label">Case file</p>
+              <p className="font-display mt-1 text-3xl font-black tracking-[0.18em] uppercase">Thingle</p>
+              <p className="typed mt-2 text-lg">No. {caseNo(state.number)}</p>
+              <span className="stamp small mt-3">Confidential</span>
+            </div>
+          </div>
+        )}
       </div>
       {dialogs}
     </Shell>

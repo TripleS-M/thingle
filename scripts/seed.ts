@@ -16,7 +16,7 @@ async function main() {
   console.log(`Scanned library: ${report.added.length} new, ${report.total} total, ${report.errors.length} errors`);
   for (const e of report.errors) console.log(`  ! ${e.file}: ${e.error}`);
 
-  const samples = listAssets().filter((a) => a.meta.sourceSite === 'Shadowplay sample library');
+  const samples = listAssets().filter((a) => a.meta.sourceSite === 'Thingle sample library');
   for (const a of samples) {
     if (a.status === 'review' && a.missing.length === 0) updateAsset(a.id, { status: 'approved' });
   }

@@ -7,7 +7,7 @@ const elite = Special_Elite({ subsets: ['latin'], weight: '400', variable: '--fo
 const courier = Courier_Prime({ subsets: ['latin'], weight: ['400', '700'], style: ['normal', 'italic'], variable: '--font-courier', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'Shadowplay — the daily silhouette case', template: '%s · Shadowplay' },
+  title: { default: 'Thingle — the daily silhouette case', template: '%s · Thingle' },
   description: 'One mystery object a day, seen only as a shadow. Five guesses. Three hints. Can you name it?',
 };
 

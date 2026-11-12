@@ -35,9 +35,9 @@
     "roll": -30,
     "zoom": 1.05
   },
-  "sourceSite": "Shadowplay sample library",
+  "sourceSite": "Thingle sample library",
   "sourceUrl": "",
-  "creator": "Shadowplay (procedurally generated)",
+  "creator": "Thingle (procedurally generated)",
   "licence": "CC0 1.0",
   "attribution": "None required"
 }

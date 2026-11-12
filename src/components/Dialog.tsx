@@ -7,10 +7,14 @@ export default function Dialog({ title, onClose, children, wide = false }: {
   title: string; onClose: () => void; children: React.ReactNode; wide?: boolean;
 }) {
   const sheet = useRef<HTMLDivElement>(null);
+  // Keep the latest onClose without re-running the effect: re-running would pull focus
+  // back to the sheet on every render (and out of whatever the person is typing in).
+  const close = useRef(onClose);
+  close.current = onClose;
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     sheet.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close.current(); };
     document.addEventListener('keydown', onKey);
     const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -19,7 +23,7 @@ export default function Dialog({ title, onClose, children, wide = false }: {
       document.body.style.overflow = overflow;
       previous?.focus?.();
     };
-  }, [onClose]);
+  }, []);
 
   return (
     <div className="scrim fade" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>

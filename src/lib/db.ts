@@ -49,6 +49,25 @@ CREATE TABLE IF NOT EXISTS plays (
   PRIMARY KEY (player_id, mode, key)
 );
 CREATE INDEX IF NOT EXISTS plays_by_puzzle ON plays (mode, key, score);
+-- Player feedback after a game: one row per player per puzzle (re-submitting replaces it).
+CREATE TABLE IF NOT EXISTS feedback (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  player_id TEXT NOT NULL,
+  mode TEXT NOT NULL,            -- daily | practice
+  date TEXT NOT NULL,            -- the puzzle's calendar day
+  asset_id TEXT NOT NULL,
+  thing TEXT NOT NULL,           -- answer at the time, kept even if the model is later deleted
+  rating INTEGER NOT NULL,       -- 1 = extremely easy .. 7 = extremely hard
+  comment TEXT NOT NULL DEFAULT '',
+  outcome TEXT NOT NULL,         -- won | lost
+  guesses INTEGER NOT NULL,
+  hints TEXT NOT NULL DEFAULT '[]',
+  score INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE (player_id, mode, date)
+);
+CREATE INDEX IF NOT EXISTS feedback_by_date ON feedback (date);
+CREATE INDEX IF NOT EXISTS feedback_by_asset ON feedback (asset_id);
 `;
 
 const g = globalThis as unknown as { __shadowplayDb?: DatabaseSync };

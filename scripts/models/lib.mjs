@@ -87,9 +87,9 @@ export async function writeGLB(group, file) {
 }
 
 export const CREDIT = {
-  sourceSite: 'Shadowplay sample library',
+  sourceSite: 'Thingle sample library',
   sourceUrl: '',
-  creator: 'Shadowplay (procedurally generated)',
+  creator: 'Thingle (procedurally generated)',
   licence: 'CC0 1.0',
   attribution: 'None required',
 };

@@ -49,6 +49,7 @@ async function main() {
   const { listAssets, getAsset, updateAsset, deleteAsset, modelPath } = await import('../src/lib/assets');
   const { setSchedule, clearSchedule, puzzleFor, isReleased } = await import('../src/lib/schedule');
   const { getState, submitGuess, useHint, resetPlay, playerStats, archive } = await import('../src/lib/game');
+  const { submitFeedback, listFeedback, summarise, toCsv } = await import('../src/lib/feedback');
   const { loadModel } = await import('../src/lib/geometry');
   const { render } = await import('../src/lib/raster');
   const { DEFAULT_SETTINGS } = await import('../src/lib/types');
@@ -59,7 +60,11 @@ async function main() {
   check('primary answer accepted', isCorrect('f1 front wing', 'F1 Front Wing', []));
   check('alternative answer accepted', isCorrect('Formula 1 front wing.', 'F1 Front Wing', ['Formula 1 front wing']));
   check('spacing differences forgiven', isCorrect('cam shaft', 'Camshaft', []));
-  check('no fuzzy matching: near misses rejected', !isCorrect('front wings', 'F1 Front Wing', ['Front wing']) && !isCorrect('wing', 'F1 Front Wing', ['Front wing']));
+  check('misspellings are forgiven (vaccum tube, vaccuum tube, vacum tube)', ['vaccum tube', 'vaccuum tube', 'vacum tube', 'Vacuum Tueb'].every((g) => isCorrect(g, 'Vacuum Tube', [])));
+  check('misspelt single word forgiven (vaccum, vaccuum = vacuum)', isCorrect('vaccum', 'Vacuum', []) && isCorrect('vaccuum', 'Vacuum', []));
+  check('a different word is still wrong', !isCorrect('vacuum cleaner', 'Vacuum Tube', []) && !isCorrect('wing', 'F1 Front Wing', ['Front wing']) && !isCorrect('piston', 'Camshaft', []));
+  check('short words must be exact (value is not valve, tub is not tube)', !isCorrect('value', 'Vacuum Tube', ['Valve', 'Tube']) && !isCorrect('tub', 'Vacuum Tube', ['Valve', 'Tube']));
+  check('numbers must match (F2 is not F1)', !isCorrect('f2 front wing', 'F1 Front Wing', []));
   check('empty guess rejected', !isCorrect('  ?! ', 'Camshaft', []));
 
   // ── Scoring ─────────────────────────────────────────────────────────────
@@ -207,6 +212,23 @@ async function main() {
   resetPlay('p1', 'practice', yesterday);
   check('practice can be replayed', getState('p1', 'practice', yesterday, false)!.guesses.length === 0);
   check('loss recorded: streak 0', playerStats('p2').currentStreak === 0 && playerStats('p2').won === 0 && playerStats('p2').played === 1);
+
+  // ── Feedback ────────────────────────────────────────────────────────────
+  console.log('\nPlayer feedback');
+  check('feedback refused before the case is finished', throws(() => submitFeedback('p9', 'daily', now, 4, '')));
+  check('a rating from 1 to 7 is required', throws(() => submitFeedback('p1', 'daily', now, 0, '')) && throws(() => submitFeedback('p1', 'daily', now, 8, '')));
+  submitFeedback('p1', 'daily', now, 2, 'Too easy from that angle');
+  submitFeedback('p2', 'daily', now, 7, '');
+  submitFeedback('p1', 'daily', now, 3, 'Changed my mind'); // replaces p1's earlier answer
+  const fb = listFeedback({ from: now, to: now });
+  check('one response per player per puzzle (re-submitting replaces it)', fb.length === 2 && fb.some((r) => r.rating === 3 && r.comment === 'Changed my mind'));
+  check('stored with the day, the thing and how the game went', fb.every((r) => r.date === now && r.thing === 'F1 Front Wing' && r.assetId === wing.id)
+    && fb.find((r) => r.rating === 3)!.outcome === 'won' && fb.find((r) => r.rating === 3)!.guesses === 2 && fb.find((r) => r.rating === 7)!.outcome === 'lost');
+  check('filter by day and by thing', listFeedback({ from: tomorrow }).length === 0 && listFeedback({ assetId: wing.id }).length === 2 && listFeedback({ assetId: plug.id }).length === 0);
+  const sum = summarise(fb)[0];
+  check('summary per day and thing', sum.responses === 2 && sum.avgRating === 5 && sum.solved === 1 && sum.distribution[2] === 1 && sum.distribution[6] === 1);
+  check('CSV export', toCsv(fb).split('\r\n').length === 3 && toCsv(fb).includes('Extremely hard'));
+  check('preview games do not collect feedback', throws(() => submitFeedback('admin', 'preview', tomorrow, 4, '')));
 
   // ── Configurable rules ──────────────────────────────────────────────────
   console.log('\nConfiguration');
